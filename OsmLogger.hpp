@@ -33,14 +33,16 @@ public:
         for (const Eigen::Vector2d &pt : pts)
         {
             osm_node_ids.push_back(cur_id++);
-            pugi::xml_node osm_node = osm_xml.append_child("node");
+            pugi::xml_node osm_node = osm_xml.child("osm").append_child("node");
             osm_node.append_attribute("id") = osm_node_ids.back();
+            osm_node.append_attribute("version") = 1;
             osm_node.append_attribute("lat") = pt.x();
             osm_node.append_attribute("lon") = pt.y();
         }
 
-        pugi::xml_node osm_way = osm_xml.append_child("way");
+        pugi::xml_node osm_way = osm_xml.child("osm").append_child("way");
         osm_way.append_attribute("id") = cur_id++;
+        osm_way.append_attribute("version") = 1;
         for (const std::size_t osm_id : osm_node_ids)
             osm_way.append_child("nd").append_attribute("ref") = osm_id;
 
