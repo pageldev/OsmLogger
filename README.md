@@ -1,6 +1,6 @@
 # OsmLogger
 
-Simple C++11 Logger for logging positional data an osm file
+Simple C++11 Logger for logging positional data to an osm file
 
 ## Compile
 ```bash
