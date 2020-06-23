@@ -27,21 +27,12 @@ public:
     }
 
     /*containers of points*/
-    template <typename T, typename std::enable_if_t<!std::is_arithmetic<T>::value> * = nullptr>
-    void log(const std::vector<T> &vec)
+    template <typename C, typename T = typename C::value_type, typename std::enable_if_t<!std::is_arithmetic<T>::value> * = nullptr>
+    void log(const C &container)
     {
-        std::vector<IdType> osm_node_ids(vec.size());
-        for (std::size_t idx = 0; idx < vec.size(); idx++)
-            osm_node_ids[idx] = log(vec.at(idx));
-        add_way(osm_node_ids.data(), osm_node_ids.size());
-    }
-
-    template <typename T, std::size_t S, typename std::enable_if_t<!std::is_arithmetic<T>::value> * = nullptr>
-    void log(const std::array<T, S> &arr)
-    {
-        std::array<IdType, S> osm_node_ids;
-        for (std::size_t idx = 0; idx < S; idx++)
-            osm_node_ids[idx] = log(arr.at(idx));
+        std::vector<IdType> osm_node_ids;
+        for (const T &val : container)
+            osm_node_ids.push_back(log(val));
         add_way(osm_node_ids.data(), osm_node_ids.size());
     }
 
@@ -53,11 +44,11 @@ public:
         return log(arr.data());
     }
 
-    template <typename T, typename std::enable_if_t<std::is_arithmetic<T>::value> * = nullptr>
-    IdType log(const std::vector<T> &vec)
+    template <typename P, typename T = typename P::value_type, typename std::enable_if_t<std::is_arithmetic<T>::value> * = nullptr>
+    IdType log(const P &pt)
     {
-        assert(vec.size() > 1);
-        return log(vec.data());
+        assert(pt.size() > 1);
+        return log(pt.data());
     }
 
     template <typename T, int S, typename std::enable_if_t<std::is_arithmetic<T>::value> * = nullptr>

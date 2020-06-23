@@ -3,6 +3,7 @@
 
 #include <array>
 #include <vector>
+#include <set>
 
 int main(void)
 {
@@ -15,7 +16,7 @@ int main(void)
     const Eigen::Vector3d pt(8800, 1, 2);
     OsmLogger::instance().log(pt);
 
-    std::array<Eigen::Vector3d, 2> pts_arr{Eigen::Vector3d(11, 22, 33), Eigen::Vector3d(44, 55, 66)};
+    std::array<std::array<double,2>, 2> pts_arr{std::array<double,2>{11, 22}, std::array<double,2>{33, 44}};
     OsmLogger::instance().log(pts_arr);
 
     std::vector<Eigen::Vector3d> pts_vec{Eigen::Vector3d(77, 88, 0), Eigen::Vector3d(99, 11, 0)};
